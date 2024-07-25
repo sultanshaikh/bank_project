@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/adminheader :: common-header">
+    <!-- Add Bootstrap CSS here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+ <head th:replace="common/adminheader :: navbar"/>
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit User</h1>
+        <form action="/admin/users/update" method="post" th:object="${user}" class="needs-validation" novalidate>
+            <input type="hidden" name="id" th:field="${user.userId}">
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" th:field="*{username}" class="form-control" required />
+                <div class="invalid-feedback">Please provide a username.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" th:field="*{firstName}" class="form-control" required />
+                <div class="invalid-feedback">Please provide a first name.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" th:field="*{lastName}" class="form-control" required />
+                <div class="invalid-feedback">Please provide a last name.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:field="*{email}" class="form-control" required />
+                <div class="invalid-feedback">Please provide a valid email.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" th:field="*{phone}" class="form-control" required />
+                <div class="invalid-feedback">Please provide a phone number.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update User</button>
+            <a th:href="@{/admin/users}" class="btn btn-secondary ml-2">Back to User List</a>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap and jQuery scripts here -->
+    <div th:replace="common/adminheader :: body-bottom-scripts">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </div>
+</body>
+</html>

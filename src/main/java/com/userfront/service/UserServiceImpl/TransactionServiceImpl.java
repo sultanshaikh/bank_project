@@ -101,6 +101,44 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
     
+    public void cardlessbetweenAccountsTransfer(String transferFrom, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception {
+        if (transferFrom.equalsIgnoreCase("Primary")) {
+        	if (primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) >= 0) {
+            primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+//            savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(new BigDecimal(amount)));
+            
+            primaryAccountDao.save(primaryAccount);
+//            savingsAccountDao.save(savingsAccount);
+        	}
+            Date date = new Date();
+            if (primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) >= 0) {
+            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "(CARD-LESS) account Debited from "+transferFrom, "Account", "Finished", Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
+            primaryTransactionDao.save(primaryTransaction);
+            }
+            else {
+            	 PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "In_Sufficient Account balance for:: (CARD-LESS) account Debited from "+transferFrom, "Account", "Failed", Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
+                 primaryTransactionDao.save(primaryTransaction);
+            }
+        } else if (transferFrom.equalsIgnoreCase("Savings")) {
+			if (savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) >= 0) {
+//            primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(new BigDecimal(amount)));
+				savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+//            primaryAccountDao.save(primaryAccount);
+				savingsAccountDao.save(savingsAccount);
+			}
+            Date date = new Date();
+            if (savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)).compareTo(BigDecimal.ZERO) >= 0) {
+            SavingsTransaction savingsTransaction = new SavingsTransaction(date, "(CARD-LESS) account Debited from "+transferFrom, "Transfer", "Finished", Double.parseDouble(amount), savingsAccount.getAccountBalance(), savingsAccount);
+            savingsTransactionDao.save(savingsTransaction);
+            }else {
+            	 SavingsTransaction savingsTransaction = new SavingsTransaction(date, "In_Sufficient Account balance for:: (CARD-LESS) account Debited from "+transferFrom, "Transfer", "Failed", Double.parseDouble(amount), savingsAccount.getAccountBalance(), savingsAccount);
+                 savingsTransactionDao.save(savingsTransaction);
+            }
+        } else {
+            throw new Exception("Invalid Debit");
+        }
+    }
+    
     public List<Recipient> findRecipientList(Principal principal) {
         String username = principal.getName();
         List<Recipient> recipientList = recipientDao.findAll().stream() 			//convert list to stream
@@ -124,21 +162,39 @@ public class TransactionServiceImpl implements TransactionService {
     
     public void toSomeoneElseTransfer(Recipient recipient, String accountType, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) {
         if (accountType.equalsIgnoreCase("Primary")) {
-            primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)));
-            primaryAccountDao.save(primaryAccount);
+            
+            if (primaryAccount.getAccountBalance().compareTo(BigDecimal.ZERO) >= 0) {
+            	primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+                primaryAccountDao.save(primaryAccount);
+            }
 
             Date date = new Date();
-
-            PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Transfer to recipient "+recipient.getName(), "Transfer", "Finished", Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
-            primaryTransactionDao.save(primaryTransaction);
+			if (primaryAccount.getAccountBalance().compareTo(BigDecimal.ZERO) >= 0) {
+				PrimaryTransaction primaryTransaction = new PrimaryTransaction(date,
+						"Transfer to recipient " + recipient.getName(), "Transfer", "Finished",
+						Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
+				primaryTransactionDao.save(primaryTransaction);
+			} else {
+				PrimaryTransaction primaryTransaction = new PrimaryTransaction(date,
+						"In-Sufficient Acccount Balance to Transfer to recipient " + recipient.getName(), "Transfer", "Failed",
+						Double.parseDouble(amount), primaryAccount.getAccountBalance(), primaryAccount);
+				primaryTransactionDao.save(primaryTransaction);
+			}
         } else if (accountType.equalsIgnoreCase("Savings")) {
-            savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
-            savingsAccountDao.save(savingsAccount);
+            
+            if (savingsAccount.getAccountBalance().compareTo(BigDecimal.ZERO) >= 0) {
+            	savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
+                savingsAccountDao.save(savingsAccount);
+            }
 
             Date date = new Date();
-
+            if (savingsAccount.getAccountBalance().compareTo(BigDecimal.ZERO) >= 0) {
             SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Transfer to recipient "+recipient.getName(), "Transfer", "Finished", Double.parseDouble(amount), savingsAccount.getAccountBalance(), savingsAccount);
             savingsTransactionDao.save(savingsTransaction);
+            }else {
+            	SavingsTransaction savingsTransaction = new SavingsTransaction(date, "In-Sufficient Acccount Balance to Transfer to recipient "+recipient.getName(), "Transfer", "Failed", Double.parseDouble(amount), savingsAccount.getAccountBalance(), savingsAccount);
+                savingsTransactionDao.save(savingsTransaction);
+            }
         }
     }
 }

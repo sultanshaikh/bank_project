@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header" />
+<body roleId="page-top" data-spy="scroll"
+	data-target=".navbar-fixed-top">
+<head th:replace="common/header :: navbar" />
+<div class="container main">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header text-center">ATM Machine</div>
+				<div class="card-body">
+
+					<form th:action="@{/account/ATMUI}" method="post">
+					<div class="form-group">
+							<label> Please Enter CardLess Transaction ID : </label> <span class="input-group-addon">Transaction 
+								Number :</span> <input th:value="${tid}" type="number"
+								name="tid" id="tid" class="form-control" required="required" /><span
+								class="bg-danger pull-right" th:if="${tid}">tid can't be empty!!</span>
+						</div>
+					
+						<div class="form-group">
+							<label for="transferFrom">1. Please select the account
+								you would like to withdraw From:</label> <select class="form-control"
+								th:value="${transferFrom}" name="transferFrom" id="transferFrom"
+								required="required">
+								<option disabled="disabled" selected="selected">--
+									select your account --</option>
+								<option value="Primary">Primary</option>
+								<option value="Savings">Savings</option>
+							</select><span class="bg-success pull-right" th:if="${accountCheck}">AcountType is valid!!</span>
+							<span class="bg-danger pull-right" th:if="${accountCheck1}">AcountType not valid!!</span>
+						<span
+								class="bg-danger pull-right" th:if="${transferFrom}"> account Type can't be empty!!</span>
+						</div>
+
+						<div class="form-group">
+							<label>2. Please Enter Account number you would like to
+								withdraw from: </label> <span class="input-group-addon">Account
+								Number :</span> <input th:value="${accountnumber}" type="number"
+								name="accountnumber" id="accountnumber" class="form-control" required="required"/><span
+								class="bg-success pull-right" th:if="${accountCheck}">Account
+								number is valid!!</span>
+								<span
+								class="bg-danger pull-right" th:if="${accountCheck1}">Account
+								number is not valid!!</span>
+								<span
+								class="bg-danger pull-right" th:if="${accountnumber}">accountnumber can't be empty!!</span>
+						</div>
+
+						<div class="form-group">
+							<label>2. Please specify the amount you would like to
+								withdraw: </label> <span class="input-group-addon">Amount $</span> <input
+								th:value="${amount}" type="number" name="amount" id="amount"
+								class="form-control" aria-label="Amount (to the nearest dollar)" required="required"/><span
+								class="bg-success pull-right" th:if="${accountCheck}">Amount
+								 validated!!!</span>
+								 <span
+								class="bg-danger pull-right" th:if="${accountCheck1}">Amount is not
+								 valid!!!</span>
+								 <span
+								class="bg-danger pull-right" th:if="${amount}"> amount can't be empty!!</span>
+						</div>
+
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+
+						<div class="form-group">
+							<label for="otp">Enter OTP to validate from Registered
+								Email</label> <input type="text" required="required" th:value="${otp1}"
+								class="form-control" id="otp1" name="otp1"
+								placeholder="Enter OTP"> <span
+								class="bg-success pull-right" th:if="${otpcheck}">OTP is
+								Valid!!!</span> <span class="bg-danger pull-right" th:if="${otpcheck1}">OTP
+								is in-Valid!!!</span> <span class="bg-danger pull-right" th:if="${otp}">otp
+								can't be empty!!</span>
+						</div>
+
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Proceed
+							for Transaction Withdraw!!!</button>
+						<span class="bg-success pull-right" th:if="${TransactionStatus}">withdraw
+							Successfull!!!</span> 
+						<span class="bg-danger pull-right"
+							th:if="${TransactionStatus1}">withdraw unsuccessfull!!!</span>
+
+					</form>
+
+					<div class="col-md-6"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div th:replace="common/header :: body-bottom-scripts" />
+
+</body>
+</html>

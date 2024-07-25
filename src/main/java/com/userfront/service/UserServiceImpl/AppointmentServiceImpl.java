@@ -32,4 +32,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setConfirmed(true);
         appointmentDao.save(appointment);
     }
+    
+    public List<Appointment> findByUserId(Long userId) {
+        return appointmentDao.findByUserId(userId);
+    }
 }

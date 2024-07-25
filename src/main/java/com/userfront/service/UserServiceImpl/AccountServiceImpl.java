@@ -3,6 +3,7 @@ package com.userfront.service.UserServiceImpl;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ import com.userfront.service.UserService;
 @Service
 public class AccountServiceImpl implements AccountService {
 	
-	private static int nextAccountNumber = 11223145;
+	private static int nextAccountNumber = 112231457;
+	private static int nextAccountNumber1 = 123777373;
 
     @Autowired
     private PrimaryAccountDao primaryAccountDao;
@@ -38,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
     public PrimaryAccount createPrimaryAccount() {
         PrimaryAccount primaryAccount = new PrimaryAccount();
         primaryAccount.setAccountBalance(new BigDecimal(0.0));
-        primaryAccount.setAccountNumber(accountGen());
+        primaryAccount.setAccountNumber(generateEightDigitInt());
 
         primaryAccountDao.save(primaryAccount);
 
@@ -48,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
     public SavingsAccount createSavingsAccount() {
         SavingsAccount savingsAccount = new SavingsAccount();
         savingsAccount.setAccountBalance(new BigDecimal(0.0));
-        savingsAccount.setAccountNumber(accountGen());
+        savingsAccount.setAccountNumber(generateEightDigitInt());
 
         savingsAccountDao.save(savingsAccount);
 
@@ -102,9 +104,18 @@ public class AccountServiceImpl implements AccountService {
         }
     }
     
-    private int accountGen() {
+    private int accountGenforPrimary() {
         return ++nextAccountNumber;
     }
+    private int accountGenforSecondary() {
+		return ++nextAccountNumber1;
+    }
+    
+    public static int generateEightDigitInt() {
+        Random random = new Random();
+        return random.nextInt(90000000) + 10000000;
+    }
+
 
 	
 

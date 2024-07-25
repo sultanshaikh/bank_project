@@ -23,6 +23,8 @@ public interface TransactionService {
     
     void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
     
+    void cardlessbetweenAccountsTransfer(String transferFrom, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
+    
     List<Recipient> findRecipientList(Principal principal);
 
     Recipient saveRecipient(Recipient recipient);

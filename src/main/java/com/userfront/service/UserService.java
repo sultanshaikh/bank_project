@@ -28,4 +28,12 @@ public interface UserService {
     void enableUser (String username);
 
     void disableUser (String username);
+
+    List<User> findAllUsers();
+
+	User findById(Long id);
+
+	void update(User user);
+
+	void delete(Long id);
 }

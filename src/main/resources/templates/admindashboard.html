@@ -1,0 +1,98 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin DashBoard</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" 
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" 
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" 
+			crossorigin="anonymous" />
+
+
+</head>
+
+<body>
+<!-- <div class="bg-image" 
+     style="background-image: url('https://thumbs.dreamstime.com/b/ash-white-marble-texture-small-scratches-veins-clean-background-image-stone-backgrounds-173710341.jpg');
+            height: 100vh">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="navbar-header ">
+            <a class="navbar-brand " href="#">Admin Portal</a>
+        </div>
+        <div>
+            <ul class="navbar-nav navbar-right">
+            	<li class="nav-item active">
+               <form th:action="@{/admin/showAdminForm}" th:object="${bankNames}" method="GET">
+                    <input type="hidden" th:value="${bankNames}" name="bankNames" />
+                    <input type="hidden" th:value="${admins.adminId}" name="adminId" />
+                    <button type="submit" class="btn btn-outline-warning my-2 my-sm-0 mr-4">Profile</button>
+                </form>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/admin/index}">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">LogOut</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+    <div class="container text-primary ">
+        <h3>Bank Name :
+            <td th:text="${bankNames}" class="text-primary" />
+        </h3>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a th:href="@{/admin/reversalRequests/list}" class="btn btn-warning btn-lg btn-block">Reversal
+                    Requests</a>
+            </div>
+            <br>
+            <div class="col">
+                <form th:action="@{/admin/branches/list}" th:object="${bankNames}" method="GET">
+                    <input type="hidden" th:value="${bankNames}" name="bankNames" />
+                    <button type="submit" class="btn btn-info btn-lg btn-block">Branches</button>
+                </form>
+            </div>
+        </div>
+        <div class="w-100"></div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/admin/employees/list}" th:object="${bankNames}" method="GET">
+                    <input type="hidden" th:value="${bankNames}" name="bankNames" />
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Employees</button>
+                </form>
+
+            </div>
+            <br>
+            <div class="col">
+                <form th:action="@{/admin/customers/list}" th:object="${bankNames}" method="GET">
+                    <input type="hidden" th:value="${bankNames}" name="bankNames" />
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Customers</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ -->
+<a th:href="@{/admin/users}">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">User details</button>
+</a>
+</body>
+
+</html>

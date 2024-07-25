@@ -19,8 +19,17 @@ public class Appointment {
     private String location;
     private String description;
     private boolean confirmed;
+    private String email;
 
-    @ManyToOne
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

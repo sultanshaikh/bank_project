@@ -12,4 +12,6 @@ public interface AppointmentService {
     Appointment findAppointment(Long id);
 
     void confirmAppointment(Long id);
+    
+    List<Appointment> findByUserId(Long userId);
 }

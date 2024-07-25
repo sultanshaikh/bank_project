@@ -117,4 +117,20 @@ public class UserServiceImpl implements UserService{
         userDao.save(user);
         System.out.println(username + " is disabled.");
     }
+    
+    public List<User> findAllUsers() {
+        return userDao.findAll();
+    }
+
+    public User findById(Long id) {
+        return userDao.findById(id).orElse(null);
+    }
+
+    public void update(User user) {
+    	userDao.save(user);
+    }
+
+    public void delete(Long id) {
+    	userDao.deleteById(id);
+    }
 }

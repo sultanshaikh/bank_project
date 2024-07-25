@@ -60,7 +60,9 @@ public class HomeController {
             }
 
             return "signup";
-        } else {
+        } 
+        
+        else {
         	 Set<UserRole> userRoles = new HashSet<>();
              userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
 
@@ -68,10 +70,19 @@ public class HomeController {
 
             return "redirect:/";
         }
+        
     }
 	
 	@RequestMapping("/userFront")
 	public String userFront(Principal principal, Model model) {
+		if (principal.getName().equalsIgnoreCase("admin@security.com"))
+		{
+			User user = userService.findByUsername(principal.getName());
+			
+			model.addAttribute("users", userService.findAllUsers());
+		     return "users";
+		}
+		else {
         User user = userService.findByUsername(principal.getName());
         PrimaryAccount primaryAccount = user.getPrimaryAccount();
         SavingsAccount savingsAccount = user.getSavingsAccount();
@@ -80,5 +91,6 @@ public class HomeController {
         model.addAttribute("savingsAccount", savingsAccount);
 
         return "userFront";
+		}
     }
 }
